@@ -23,17 +23,13 @@ public class MainMenu extends JFrame{
                 MainMenu.this.dispose();
                 GameWindow game = new GameWindow();
                 try {
-                    FileInputStream f =
-                    new FileInputStream("save.txt");
-                    ObjectInputStream in =
-                    new ObjectInputStream(f);
+                    FileInputStream f = new FileInputStream("save.txt");
+                    ObjectInputStream in = new ObjectInputStream(f);
                     Board b = (Board)in.readObject();
                     game.setBoard(b);
                     in.close();
                     
-                    } catch(IOException ex) {
-                        ex.printStackTrace();
-                    } catch(ClassNotFoundException ex) {
+                    } catch(IOException | ClassNotFoundException ex) {
                         ex.printStackTrace();
                     }
                 game.visual();

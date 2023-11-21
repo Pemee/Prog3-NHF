@@ -6,25 +6,29 @@ import javax.swing.*;
 
 public class GameWindow extends JFrame{
     JButton save = new JButton("Save");
+    JButton pass = new JButton("Pass");
     Board b = new Board();
-    final int frameW = 900;
-    final int frameH = 900;
+    static final int frameW = 1200;
+    static final int frameH = 900;
     int counter = 0;
-    public class clickListener extends MouseAdapter{
+    public class ClickListener extends MouseAdapter{
+        @Override
         public void mouseClicked(MouseEvent e){
             int x = e.getX() - 8;
             int y = e.getY() + 11;
-            if((x >= b.height) && (y-40 >= b.width) && (x <= frameH-b.height) && (y-40 <= frameW - b.width)){
-                while((x-b.height) % b.tileHeight != 0){
+            if((x >= b.width) && (y >= b.height) && (x <= frameW - b.width - 300) && (y <= frameH - b.height)){
+                while((x-b.width) % b.tileWidth != 0){
                     x--;
                 }
-                while((y-b.width) % b.tileWidth != 0){
+                while((y-b.height) % b.tileHeight != 0){
                     y--;
                 }
-                Piece p = new Piece(x,y,counter % 2 + 1);
-                p.paintComponent(b.getGraphics());
-                counter++;
-                b.addPiece((y-b.width)/b.tileWidth-1,(x-b.height)/b.tileHeight,counter % 2 + 1);
+                if(b.boardStat[(x-b.width)/b.tileWidth][(y-b.height)/b.tileHeight] == 0){
+                    Piece p = new Piece(x,y,counter % 2 + 1);
+                    p.paintComponent(b.getGraphics());
+                    counter++;
+                    b.addPiece((x-b.width)/b.tileWidth,(y-b.height)/b.tileHeight,counter % 2 + 1);
+                }
            }
            
         }
@@ -58,13 +62,21 @@ public class GameWindow extends JFrame{
         this.setSize(frameW,frameH);
         this.setResizable(false);
         this.setLayout(new BorderLayout());
-        JPanel upperPanel = new JPanel();
+        JPanel menuPanel = new JPanel();
+        JPanel buttons = new JPanel();
+        buttons.add(save);
+        buttons.add(pass);
+        buttons.setLayout(new GridLayout(2,1));
+        menuPanel.setSize(300,900);
+        pass.setFocusable(false);
         save.setFocusable(false);
+        save.setPreferredSize(new Dimension(200,100));
+        pass.setPreferredSize(new Dimension(200,100));
         save.addActionListener(new SaveListener());
-        upperPanel.add(save);
+        menuPanel.add(buttons, BorderLayout.CENTER);
         this.add(b);
-        this.add(upperPanel, BorderLayout.NORTH);
-        this.addMouseListener(new clickListener());
+        this.add(menuPanel, BorderLayout.EAST);
+        this.addMouseListener(new ClickListener());
         
     }
     public void visual(){
