@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 
@@ -39,13 +38,19 @@ public class MainMenu extends JFrame{
         }
     }
     MainMenu(){
+        
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setTitle("Main Menu");
         this.setResizable(false);
-        this.setSize(900,900);
-        this.setLayout(new GridLayout(3,1));
+        this.setSize(500,500);
+        this.setLocationRelativeTo(null);
+        this.setLayout(null);
         newGame.setFocusable(false);
         load.setFocusable(false);
         exit.setFocusable(false);
+        newGame.setBounds(100, 30,300,100);
+        load.setBounds(100,180,300,100);
+        exit.setBounds(100,330,300,100);
         newGame.addActionListener(new MyActionListener());
         load.addActionListener(new MyActionListener());
         exit.addActionListener(new MyActionListener());
