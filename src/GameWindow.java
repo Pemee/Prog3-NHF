@@ -45,9 +45,38 @@ public class GameWindow extends JFrame{
                         turn.setText("Turn: "+ player2);
                     }
                 }
+                boolean full = true;
+                for(int i = 0; i < 15; i++){
+                    for(int j = 0; j < 15; j++){
+                        if(b.boardStat[i][j] == 0){
+                            full = false;
+                        }
+                    } 
+                }
+                if(full){
+                    Object[] options = {"Exit", "Restart"};
+                    int result = JOptionPane.showOptionDialog(GameWindow.this, "                                  DRAW",
+                     "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+                    switch(result){
+                        case -1:
+                        GameWindow.this.dispose();
+                        break;
+                        case 0:
+                        GameWindow.this.dispose();
+                        break;
+                        case 1:
+                        GameWindow.this.dispose();
+                        GameWindow gw = new GameWindow();
+                        gw.counter = 0;
+                        gw.visual();
+                        
+                        break;
+                    }
+                }
                 if(counter == 3){
                     Object[] options = {"Switch", "Stay"};
-                    int result = JOptionPane.showOptionDialog(GameWindow.this, "Do you want to switch colors?", "Choose a color!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+                    int result = JOptionPane.showOptionDialog(GameWindow.this, "Do you want to switch colors?",
+                     "Choose a color!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
                     switch(result){
                         case 0:
                         player1 = "Player2";
@@ -56,6 +85,34 @@ public class GameWindow extends JFrame{
 
                         break;
                         default: break;
+                    }
+                }
+
+                if(b.checkRow((x-b.width)/b.tileWidth, (y-b.height)/b.tileHeight, counter % 2 + 1) || b.checkCol((x-b.width)/b.tileWidth, (y-b.height)/b.tileHeight, counter % 2 + 1) ||
+                b.checkDiagnal1((x-b.width)/b.tileWidth, (y-b.height)/b.tileHeight, counter % 2 + 1) || b.checkDiagnal2((x-b.width)/b.tileWidth, (y-b.height)/b.tileHeight, counter % 2 + 1)){
+                    Object[] options = {"Exit", "Restart"};
+                    int result;
+                    if(counter % 2 + 1 == 2){
+                        result = JOptionPane.showOptionDialog(GameWindow.this, "                              BLACK WON",
+                                            "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+                    }else{
+                        result = JOptionPane.showOptionDialog(GameWindow.this, "                              WHITE WON",
+                                            "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+                    }
+                    switch(result){
+                        case -1:
+                        GameWindow.this.dispose();
+                        break;
+                        case 0:
+                        GameWindow.this.dispose();
+                        break;
+                        case 1:
+                        GameWindow.this.dispose();
+                        GameWindow gw = new GameWindow();
+                        gw.counter = 0;
+                        gw.visual();
+                        
+                        break;
                     }
                 }
            }
@@ -92,7 +149,8 @@ public class GameWindow extends JFrame{
                 }
                 if(passCounter >= 2){
                     Object[] options = {"Exit", "Restart"};
-                    int result = JOptionPane.showOptionDialog(GameWindow.this, "DRAW", "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+                    int result = JOptionPane.showOptionDialog(GameWindow.this,"                                  DRAW",
+                    "Game Over", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
                     switch(result){
                         case -1:
                         GameWindow.this.dispose();

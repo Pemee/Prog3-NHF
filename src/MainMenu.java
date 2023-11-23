@@ -1,4 +1,6 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.Color;
 import java.awt.event.*;
 import java.io.*;
 
@@ -37,14 +39,22 @@ public class MainMenu extends JFrame{
             
         }
     }
+
     MainMenu(){
-        
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        try {
+            this.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("mmbg.jpg")))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.setTitle("Main Menu");
         this.setResizable(false);
         this.setSize(500,500);
         this.setLocationRelativeTo(null);
         this.setLayout(null);
+        newGame.setBackground(new Color(179, 161, 125));
+        load.setBackground(new Color(179, 161, 125));
+        exit.setBackground(new Color(179, 161, 125));
         newGame.setFocusable(false);
         load.setFocusable(false);
         exit.setFocusable(false);
