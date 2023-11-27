@@ -86,7 +86,30 @@ public class GameWindow extends JFrame{
                         turn.setText(TURNTXT + player2);
                     }
                 }
-
+                if(b.checkDoubleThree((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT) || b.rowBlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)
+                || b.colBlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.diag1BlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)
+                || b.diag2BlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)){
+                    Object[] options = {"Exit", RESTART};
+                    int result = JOptionPane.showOptionDialog(GameWindow.this, "                              WHITE WON",
+                                            GO, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+                    
+                    switch(result){
+                        case -1:
+                        GameWindow.this.dispose();
+                        break;
+                        case 0:
+                        GameWindow.this.dispose();
+                        break;
+                        case 1:
+                        GameWindow.this.dispose();
+                        GameWindow gw = new GameWindow();
+                        gw.counter = 0;
+                        gw.visual();
+                        break;
+                        default: break;
+                    }
+                }
+                
                 if(b.checkRow((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.checkCol((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) ||
                 b.checkDiagnal1((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.checkDiagnal2((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)){
                     Object[] options = {"Exit", RESTART};
@@ -129,6 +152,7 @@ public class GameWindow extends JFrame{
                     ObjectOutputStream out = new ObjectOutputStream(f);
                     out.writeObject(b);
                     out.close();
+                    f.close();
                     }
                     catch(IOException ex) { 
                         ex.printStackTrace();

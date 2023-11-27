@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.geom.*;
 import javax.swing.*;
 
-public class Piece extends JPanel{
+public class Piece extends JComponent{
     private int color;
     int px;
     int py;
