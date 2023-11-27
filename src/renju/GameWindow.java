@@ -90,6 +90,7 @@ public class GameWindow extends JFrame{
                 || b.colBlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.diag1BlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)
                 || b.diag2BlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)){
                     Object[] options = {"Exit", RESTART};
+                    full = true;
                     int result = JOptionPane.showOptionDialog(GameWindow.this, "                              WHITE WON",
                                             GO, JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
                     
@@ -110,8 +111,8 @@ public class GameWindow extends JFrame{
                     }
                 }
                 
-                if(b.checkRow((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.checkCol((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) ||
-                b.checkDiagnal1((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.checkDiagnal2((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)){
+                if((!full) && (b.checkRow((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.checkCol((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) ||
+                b.checkDiagnal1((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.checkDiagnal2((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1))){
                     Object[] options = {"Exit", RESTART};
                     int result;
                     if(counter % 2 + 1 == 2){
@@ -143,7 +144,6 @@ public class GameWindow extends JFrame{
         }
     }
     public class ButtonListener implements ActionListener{
-
         @Override
         public void actionPerformed(ActionEvent e) {
             if(e.getSource() == save){
