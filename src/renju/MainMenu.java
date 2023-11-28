@@ -1,5 +1,7 @@
+package renju;
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.*;
 import java.io.*;
 
@@ -23,17 +25,16 @@ public class MainMenu extends JFrame{
                 MainMenu.this.dispose();
                 GameWindow game = new GameWindow();
                 try {
-                    FileInputStream f =
-                    new FileInputStream("save.txt");
-                    ObjectInputStream in =
-                    new ObjectInputStream(f);
+                    FileInputStream f = new FileInputStream("save.txt");
+                    ObjectInputStream in = new ObjectInputStream(f);
                     Board b = (Board)in.readObject();
-                    game.setBoard(b);
+                    game.b.pieces = b.pieces;
+                    game.b.boardStat = b.boardStat;
+                    game.counter = b.pieces.size()+1;
                     in.close();
+
                     
-                    } catch(IOException ex) {
-                        ex.printStackTrace();
-                    } catch(ClassNotFoundException ex) {
+                    } catch(IOException | ClassNotFoundException ex) {
                         ex.printStackTrace();
                     }
                 game.visual();
@@ -42,14 +43,28 @@ public class MainMenu extends JFrame{
             
         }
     }
+
     MainMenu(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        try {
+            this.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("mmbg.jpg")))));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        this.setTitle("Main Menu");
         this.setResizable(false);
-        this.setSize(900,900);
-        this.setLayout(new GridLayout(3,1));
+        this.setSize(500,500);
+        this.setLocationRelativeTo(null);
+        this.setLayout(null);
+        newGame.setBackground(new Color(179, 161, 125));
+        load.setBackground(new Color(179, 161, 125));
+        exit.setBackground(new Color(179, 161, 125));
         newGame.setFocusable(false);
         load.setFocusable(false);
         exit.setFocusable(false);
+        newGame.setBounds(100, 30,300,100);
+        load.setBounds(100,180,300,100);
+        exit.setBounds(100,330,300,100);
         newGame.addActionListener(new MyActionListener());
         load.addActionListener(new MyActionListener());
         exit.addActionListener(new MyActionListener());
