@@ -11,10 +11,11 @@ public class GameWindow extends JFrame{
     JButton exit = new JButton("Exit");
     JLabel turn = new JLabel();
     Board b = new Board();
+    RuleChecker rc = new RuleChecker(b);
     static boolean exitCall = false;
     static final int FRAMEW = 1200;
     static final int FRAMEH = 900;
-    int counter = 0;
+    int counter = 1;
     String player1 = "Player1";
     String player2 = "Player2";
     static final String TURNTXT = "Turn: ";
@@ -36,9 +37,10 @@ public class GameWindow extends JFrame{
                 }
                 if(b.boardStat[(x-b.BWIDTH)/b.TILEWIDTH][(y-b.BHEIGHT)/b.TILEHEIGHT] == 0){
                     Piece p = new Piece(x,y,counter % 2 + 1);
-                    p.paintComponent(b.getGraphics());
-                    counter++;
+                    b.addToPieceList(p);
                     b.addPiece((x-b.BWIDTH)/b.TILEWIDTH,(y-b.BHEIGHT)/b.TILEHEIGHT,counter % 2 + 1);
+                    rc.setBoard(b);
+                    b.repaint();
                 }
                 if(counter >= 3){
                     if((counter % 2 + 1) == 1){
@@ -70,25 +72,15 @@ public class GameWindow extends JFrame{
                         case 1:
                         GameWindow.this.dispose();
                         GameWindow gw = new GameWindow();
-                        gw.counter = 0;
+                        gw.counter = 1;
                         gw.visual();
                         break;
                         default: break;
                     }
                 }
-                if(counter == 3){
-                    Object[] options = {"Switch", "Stay"};
-                    int result = JOptionPane.showOptionDialog(GameWindow.this, "Do you want to switch colors?",
-                     "Choose a color!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
-                    if(result == 0){
-                        player1 = "Player2";
-                        player2 = "Player1";
-                        turn.setText(TURNTXT + player2);
-                    }
-                }
-                if(b.checkDoubleThree((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT) || b.rowBlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)
-                || b.colBlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.diag1BlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)
-                || b.diag2BlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)){
+                if(rc.checkDoubleThree((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || rc.rowBlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)
+                || rc.colBlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || rc.diag1BlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)
+                || rc.diag2BlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)){
                     Object[] options = {"Exit", RESTART};
                     full = true;
                     int result = JOptionPane.showOptionDialog(GameWindow.this, "                              WHITE WON",
@@ -104,15 +96,15 @@ public class GameWindow extends JFrame{
                         case 1:
                         GameWindow.this.dispose();
                         GameWindow gw = new GameWindow();
-                        gw.counter = 0;
+                        gw.counter = 1;
                         gw.visual();
                         break;
                         default: break;
                     }
                 }
                 
-                if((!full) && (b.checkRow((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.checkCol((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) ||
-                b.checkDiagnal1((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || b.checkDiagnal2((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1))){
+                if((!full) && (rc.checkRow((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || rc.checkCol((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) ||
+                rc.checkDiagnal1((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || rc.checkDiagnal2((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1))){
                     Object[] options = {"Exit", RESTART};
                     int result;
                     if(counter % 2 + 1 == 2){
@@ -132,7 +124,7 @@ public class GameWindow extends JFrame{
                         case 1:
                         GameWindow.this.dispose();
                         GameWindow gw = new GameWindow();
-                        gw.counter = 0;
+                        gw.counter = 1;
                         gw.visual();
                         break;
                         default: break;
@@ -140,7 +132,17 @@ public class GameWindow extends JFrame{
                 }
                 
            }
-           
+           if(counter == 3){
+            Object[] options = {"Switch", "Stay"};
+            int result = JOptionPane.showOptionDialog(GameWindow.this, "Do you want to switch colors?",
+             "Choose a color!", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, null);
+            if(result == 0){
+                player1 = "Player2";
+                player2 = "Player1";
+                turn.setText(TURNTXT + player2);
+            }
+           }
+           counter++;
         }
     }
     public class ButtonListener implements ActionListener{
@@ -183,7 +185,7 @@ public class GameWindow extends JFrame{
                         case 1:
                         GameWindow.this.dispose();
                         GameWindow gw = new GameWindow();
-                        gw.counter = 0;
+                        gw.counter = 1;
                         gw.visual();
                         break;
                         default: break;
@@ -197,6 +199,8 @@ public class GameWindow extends JFrame{
     }
     public void setBoard(Board b){
         this.b = b;
+        rc.setBoard(b);
+        b.repaint();
     }
 
     GameWindow(){
@@ -233,6 +237,7 @@ public class GameWindow extends JFrame{
     }
     public void visual(){
         this.setVisible(true);
+        
     }
     
 }

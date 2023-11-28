@@ -28,8 +28,11 @@ public class MainMenu extends JFrame{
                     FileInputStream f = new FileInputStream("save.txt");
                     ObjectInputStream in = new ObjectInputStream(f);
                     Board b = (Board)in.readObject();
-                    game.setBoard(b);
+                    game.b.pieces = b.pieces;
+                    game.b.boardStat = b.boardStat;
+                    game.counter = b.pieces.size()+1;
                     in.close();
+
                     
                     } catch(IOException | ClassNotFoundException ex) {
                         ex.printStackTrace();

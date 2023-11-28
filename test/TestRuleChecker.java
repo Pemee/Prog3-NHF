@@ -1,4 +1,4 @@
-package renju;
+package src.renju;
 
 public class TestRuleChecker {
     
