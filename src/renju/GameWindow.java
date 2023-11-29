@@ -6,22 +6,22 @@ import javax.swing.*;
 
 
 public class GameWindow extends JFrame{
+    
+    static final int FRAMEW = 1200;
+    static final int FRAMEH = 900;
+    static final String TURNTXT = "Turn: ";
+    static final String GO = "Game Over";
+    static final String RESTART = "Restart";
+    private int passCounter = 0; 
+    int counter = 1;
+    String player1 = "Player1";
+    String player2 = "Player2";
     JButton save = new JButton("Save");
     JButton pass = new JButton("Pass");
     JButton exit = new JButton("Exit");
     JLabel turn = new JLabel();
     Board b = new Board();
     RuleChecker rc = new RuleChecker(b);
-    static boolean exitCall = false;
-    static final int FRAMEW = 1200;
-    static final int FRAMEH = 900;
-    int counter = 1;
-    String player1 = "Player1";
-    String player2 = "Player2";
-    static final String TURNTXT = "Turn: ";
-    static final String GO = "Game Over";
-    static final String RESTART = "Restart";
-    private int passCounter = 0; 
     public class ClickListener extends MouseAdapter{
         @Override
         public void mouseClicked(MouseEvent e){

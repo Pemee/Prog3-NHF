@@ -2,7 +2,7 @@ package renju;
 
 public class RuleChecker {
     Board board = new Board();
-
+    RuleChecker(){}
     RuleChecker(Board b){
         this.board = b;
     }
@@ -13,7 +13,7 @@ public class RuleChecker {
 
     public boolean checkCol(int x, int y, int color){
         boolean bool = false;
-        if(((y>4) && (board.boardStat[x][y-1] == color) && (board.boardStat[x][y-2] == color) && (board.boardStat[x][y-3] == color) && (board.boardStat[x][y-4] == color)) || 
+        if(((y>3) && (board.boardStat[x][y-1] == color) && (board.boardStat[x][y-2] == color) && (board.boardStat[x][y-3] == color) && (board.boardStat[x][y-4] == color)) || 
         ((y<11) && (board.boardStat[x][y+1] == color) && (board.boardStat[x][y+2] == color) && (board.boardStat[x][y+3] == color) && (board.boardStat[x][y+4] == color)) || 
         ((y>2) && (y<14) && (board.boardStat[x][y-1] == color) && (board.boardStat[x][y-2] == color) && (board.boardStat[x][y-3] == color) && (board.boardStat[x][y+1] == color)) ||
         ((y<12) && (y>0) && (board.boardStat[x][y+1] == color) && (board.boardStat[x][y+2] == color) && (board.boardStat[x][y+3] == color) && (board.boardStat[x][y-1] == color)) ||
@@ -69,7 +69,7 @@ public class RuleChecker {
     }
     public boolean colBlackCheck(int x, int y, int color){
         if((color == 2) && 
-        (((y>4) && (board.boardStat[x][y-1] == color) && (board.boardStat[x][y-2] == color) && (board.boardStat[x][y-3] == color) && (board.boardStat[x][y-4] == color) && (board.boardStat[x][y-5] == color)) || 
+        (((y>3) && (board.boardStat[x][y-1] == color) && (board.boardStat[x][y-2] == color) && (board.boardStat[x][y-3] == color) && (board.boardStat[x][y-4] == color) && (board.boardStat[x][y-5] == color)) || 
         ((y<10) && (board.boardStat[x][y+1] == color) && (board.boardStat[x][y+2] == color) && (board.boardStat[x][y+3] == color) && (board.boardStat[x][y+4] == color) && (board.boardStat[x][y+5] == color)) ||
         ((y>3) && (y<14) && (board.boardStat[x][y-1] == color) && (board.boardStat[x][y-2] == color) && (board.boardStat[x][y-3] == color) && (board.boardStat[x][y-4] == color) && (board.boardStat[x][y+1] == color)) ||
         ((y<11) && (y>0) && (board.boardStat[x][y+1] == color) && (board.boardStat[x][y+2] == color) && (board.boardStat[x][y+3] == color) && (board.boardStat[x][y+4] == color) && (board.boardStat[x][y-1] == color)) ||
@@ -167,6 +167,9 @@ public class RuleChecker {
            return true; 
         }
         return false;
+    }
+    public Board getBoard(){
+        return this.board;
     }
     
 }
