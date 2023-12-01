@@ -4,7 +4,9 @@ import java.awt.geom.Ellipse2D;
 import java.util.*;
 
 import javax.swing.*;
-
+/**
+ * Ez az osztály rajzolja ki a táblát és a bábukat.
+ */
 public class Board extends JPanel{
     final int BWIDTH = 150;
     final int BHEIGHT = 150;
@@ -12,14 +14,30 @@ public class Board extends JPanel{
     final int TILEHEIGHT = 40;
     int[][] boardStat = new int[15][15];
     ArrayList<Piece> pieces = new ArrayList<>();
+    
+    /**
+     * Hozzáadja a megadott koordináták alapján a bábuk helyzetét tároló mátrixhoz egy újat.
+     * @param x X koordináta 
+     * @param y Y koordináta
+     * @param pieceColor Bábu színe
+     */
     public void addPiece(int x, int y, int pieceColor){
         boardStat[x][y] = pieceColor;
     }
+    
+    /** 
+     * Hozzáadja a pieces tömbhöz a megadott bábut.
+     * @param p A hozzáadandó bábu @see renju.Piece
+     * 
+     */
     public void addToPieceList(Piece p){
         pieces.add(p);
     }
     
-
+    /** 
+     * Felrajzolja a tánlát és a pieces tömbben eltárolt bábukat.
+     * @param g
+     */
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);

@@ -2,26 +2,30 @@ package renju;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+
 import javax.swing.*;
 
-
+/**
+ * Ez az osztály a játék ablaka.
+ */
 public class GameWindow extends JFrame{
+    
+    static final int FRAMEW = 1200;
+    static final int FRAMEH = 900;
+    static final String TURNTXT = "Turn: ";
+    static final String GO = "Game Over";
+    static final String RESTART = "Restart";
+    private int passCounter = 0; 
+    int counter = 1;
+    String player1 = "Player1";
+    String player2 = "Player2";
     JButton save = new JButton("Save");
     JButton pass = new JButton("Pass");
     JButton exit = new JButton("Exit");
     JLabel turn = new JLabel();
     Board b = new Board();
     RuleChecker rc = new RuleChecker(b);
-    static boolean exitCall = false;
-    static final int FRAMEW = 1200;
-    static final int FRAMEH = 900;
-    int counter = 1;
-    String player1 = "Player1";
-    String player2 = "Player2";
-    static final String TURNTXT = "Turn: ";
-    static final String GO = "Game Over";
-    static final String RESTART = "Restart";
-    private int passCounter = 0; 
+    //Az egér listenerje, ami vezérli a játékot.
     public class ClickListener extends MouseAdapter{
         @Override
         public void mouseClicked(MouseEvent e){
@@ -35,6 +39,7 @@ public class GameWindow extends JFrame{
                 while((y-b.BHEIGHT) % b.TILEHEIGHT != 0){
                     y--;
                 }
+                //Kirajzolódik a bábu, ha üres mezőre kattint a játékos.
                 if(b.boardStat[(x-b.BWIDTH)/b.TILEWIDTH][(y-b.BHEIGHT)/b.TILEHEIGHT] == 0){
                     Piece p = new Piece(x,y,counter % 2 + 1);
                     b.addToPieceList(p);
@@ -42,6 +47,7 @@ public class GameWindow extends JFrame{
                     rc.setBoard(b);
                     b.repaint();
                 }
+                //Miután a fekete lerakta az első 3 bábut, változik, hogy ki lesz a következő játékos felirat.
                 if(counter >= 3){
                     if((counter % 2 + 1) == 1){
                         turn.setText(TURNTXT + player1);
@@ -58,6 +64,7 @@ public class GameWindow extends JFrame{
                         }
                     } 
                 }
+                //Ha tele a tábla vége a játéknak döntetlennel.
                 if(full){
                     Object[] options = {"Exit", RESTART};
                     int result = JOptionPane.showOptionDialog(GameWindow.this, "                                  DRAW",
@@ -78,6 +85,7 @@ public class GameWindow extends JFrame{
                         default: break;
                     }
                 }
+                //Ez nézi, hogy a fekete betartja-e a rá vonatkozó szabályokat, ha nem vége a játéknak és a fehér nyert.
                 if(rc.checkDoubleThree((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || rc.rowBlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)
                 || rc.colBlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || rc.diag1BlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)
                 || rc.diag2BlackCheck((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1)){
@@ -102,7 +110,7 @@ public class GameWindow extends JFrame{
                         default: break;
                     }
                 }
-                
+                //Nézi, hogy kinek van meg az 5 bábu egy összefüggő sorban oszlopban vagy átlóban.
                 if((!full) && (rc.checkRow((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || rc.checkCol((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) ||
                 rc.checkDiagnal1((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1) || rc.checkDiagnal2((x-b.BWIDTH)/b.TILEWIDTH, (y-b.BHEIGHT)/b.TILEHEIGHT, counter % 2 + 1))){
                     Object[] options = {"Exit", RESTART};
@@ -132,6 +140,7 @@ public class GameWindow extends JFrame{
                 }
                 
            }
+           //Ha lerakta a fekete az első 3 bábut, felugrik a kérdés a fehérnek, hogy marad-e fehér, vagy vált a feketére.
            if(counter == 3){
             Object[] options = {"Switch", "Stay"};
             int result = JOptionPane.showOptionDialog(GameWindow.this, "Do you want to switch colors?",
@@ -145,9 +154,11 @@ public class GameWindow extends JFrame{
            counter++;
         }
     }
+    //Oldalsó panel gombjainak a listenerje.
     public class ButtonListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e) {
+            //Mentés
             if(e.getSource() == save){
                 try {
                     FileOutputStream f = new FileOutputStream("save.txt");
@@ -160,6 +171,7 @@ public class GameWindow extends JFrame{
                         ex.printStackTrace();
                     }
             }
+            //Passzolás
             if(e.getSource()==pass){
                 if(counter > 3){
                     passCounter++;
@@ -171,6 +183,7 @@ public class GameWindow extends JFrame{
                         turn.setText(TURNTXT +player1);
                     }
                 }
+                //Ha két passzolás van egymás után vége a játéknak.
                 if(passCounter >= 2){
                     Object[] options = {"Exit", RESTART};
                     int result = JOptionPane.showOptionDialog(GameWindow.this,"                                  DRAW",
@@ -192,17 +205,23 @@ public class GameWindow extends JFrame{
                     }
                 }
             }
+            //Kilépés.
             if(e.getSource()==exit){
                 GameWindow.this.dispose();
             }
         }   
     }
+    
+    /** 
+     * Board setterje.
+     * @param b
+     */
     public void setBoard(Board b){
         this.b = b;
         rc.setBoard(b);
         b.repaint();
     }
-
+    //Konstruktor.
     GameWindow(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(FRAMEW,FRAMEH);
@@ -235,6 +254,7 @@ public class GameWindow extends JFrame{
         this.addMouseListener(new ClickListener());
         
     }
+    //Megjeleníti a képet.
     public void visual(){
         this.setVisible(true);
         
