@@ -1,6 +1,8 @@
 package renju;
 import org.junit.*;
-
+/**
+ *A Board osztály függvényeit teszteli.
+ */
 public class TestBoard {
     @Test
     public void testAddToPieceList(){

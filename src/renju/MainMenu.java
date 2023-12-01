@@ -5,10 +5,15 @@ import java.awt.Color;
 import java.awt.event.*;
 import java.io.*;
 
+/**
+ * A főmenü osztálya.
+ */
 public class MainMenu extends JFrame{
     JButton newGame = new JButton("New Game");
     JButton load = new JButton("Load");
     JButton exit = new JButton("Exit");
+
+    //Főmenü gombjainak a listenerje.
     public class MyActionListener implements ActionListener{
         @Override
         public void actionPerformed(ActionEvent e){
@@ -43,7 +48,7 @@ public class MainMenu extends JFrame{
             
         }
     }
-
+    //Konstruktor.
     MainMenu(){
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         try {
@@ -72,7 +77,7 @@ public class MainMenu extends JFrame{
         this.add(load);
         this.add(exit);
     }        
-        
+    //Megjeleníti a képet.  
     public void visual(){
         this.setVisible(true);
     }

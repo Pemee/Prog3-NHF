@@ -1,7 +1,9 @@
 package renju;
 
 import org.junit.*;
-
+/**
+ * A RuleCheker osztály 8 függvényét teszteli ez az osztály.
+ */
 public class TestRuleChecker {
     Board board = new Board();
     RuleChecker rc = new RuleChecker();

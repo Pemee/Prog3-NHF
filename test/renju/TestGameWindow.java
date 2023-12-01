@@ -1,6 +1,12 @@
 package renju;
 import org.junit.*;
+/**
+ * A GameWindow osztály függvényeit teszteli.
+ */
 public class TestGameWindow {
+    /**
+     *A GameWindow osztály Board setterjét teszteli. 
+    */
     @Test
     public void testSetBoard(){
         Board board = new Board();
