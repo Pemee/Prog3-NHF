@@ -19,6 +19,7 @@ public class GameWindow extends JFrame{
     int counter = 1;
     String player1 = "Player1";
     String player2 = "Player2";
+    JButton reset = new JButton("Restart");
     JButton save = new JButton("Save");
     JButton pass = new JButton("Pass");
     JButton exit = new JButton("Exit");
@@ -209,6 +210,12 @@ public class GameWindow extends JFrame{
             if(e.getSource()==exit){
                 GameWindow.this.dispose();
             }
+            if(e.getSource()==reset){
+                GameWindow.this.dispose();
+                GameWindow gw = new GameWindow();
+                gw.counter = 1;
+                gw.visual(); 
+            }
         }   
     }
     
@@ -235,6 +242,8 @@ public class GameWindow extends JFrame{
         exit.setFocusable(false);
         pass.setFocusable(false);
         save.setFocusable(false);
+        reset.setFocusable(false);
+        reset.addActionListener(new ButtonListener());
         exit.addActionListener(new ButtonListener());
         pass.addActionListener(new ButtonListener());
         save.addActionListener(new ButtonListener());
@@ -243,11 +252,13 @@ public class GameWindow extends JFrame{
         menuPanel.add(turn);
         menuPanel.add(save);
         menuPanel.add(pass);
+        menuPanel.add(reset);
         menuPanel.add(exit);
         menuPanel.setLayout(null);
         turn.setBounds(60,30,200,75);
         save.setBounds(50,175,200,75);
         pass.setBounds(50,300,200,75);
+        reset.setBounds(50,425,200,75);
         exit.setBounds(50,750,200,75);
         this.add(b);
         this.add(menuPanel, BorderLayout.EAST);
